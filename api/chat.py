@@ -58,7 +58,7 @@ faq_db = {
             "keywords": ["produkte", "verkauf", "kaufen", "creme", "öl"],
             "antwort": "In unserem Studio führen wir hochwertige Pflegeprodukte verschiedener Marken, die Sie auch direkt bei uns erwerben können."
         }
-    ]
+    ],
     "fallback": "Das weiß ich leider nicht. Bitte rufen Sie uns direkt unter 030-123456 an, wir helfen Ihnen gerne persönlich weiter."
 }
 
@@ -252,6 +252,7 @@ def chat_handler():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
