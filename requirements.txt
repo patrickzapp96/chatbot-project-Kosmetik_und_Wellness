@@ -1,0 +1,3 @@
+# Datei: requirements.txt
+Flask
+Flask-Cors
