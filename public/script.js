@@ -47,7 +47,8 @@ function sendMessage() {
     showTypingIndicator();
 
     try {
-        const response = fetch("http://127.0.0.1:5000/api/chat", {
+        // ACHTUNG: Die URL wurde geändert. Sie ist nun relativ zum Server-Ursprung.
+        const response = fetch("/api/chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
