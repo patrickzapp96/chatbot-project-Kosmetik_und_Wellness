@@ -3,38 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSI Wellness & Kosmetik</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>BSI-Demo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Chat Toggle Button -->
-    <div id="chat-toggle" class="chat-toggle-btn">
-        <i class="fas fa-spa"></i>
-    </div>
+    <div id="chat-toggle">💬</div>
 
-    <!-- Chat Widget -->
-    <div id="chat-widget" class="chat-container hidden">
-        <div class="chat-header">
-            <span>Beauty & Wellness Studio</span>
-            <button id="chat-close" class="bg-transparent border-none text-white text-lg cursor-pointer">
-                <i class="fas fa-times"></i>
-            </button>
+    <div id="chat-widget" style="display:none;">
+        <div id="chat-header">
+            <span class="header-avatar">🤖</span>
+            <span>Branchenbasierte Intelligenz</span>
+            <button id="chat-close">✖</button>
         </div>
-        <div id="chat-messages" class="chat-messages"></div>
-        <div id="typing-indicator" class="typing-indicator hidden">
-            <i class="fas fa-circle-notch fa-spin"></i> tippt...
-        </div>
-        <div class="chat-input">
+        <div id="chat-messages"></div>
+        <div id="typing-indicator" style="display:none;">tippt...</div>
+        <div id="chat-input">
             <input id="userMessage" type="text" placeholder="Nachricht eingeben..." />
-            <button onclick="sendMessage()">
-                <i class="fas fa-paper-plane"></i>
-            </button>
+            <button onclick="sendMessage()">➤</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>
