@@ -26,7 +26,7 @@ faq_db = {
         {
             "id": 2,
             "kategorie": "Terminbuchung",
-            "titel": "Termin",
+            "titel": "Terminbuchung",
             "keywords": ["termin", "buchen", "vereinbaren", "ausmachen", "reservieren", "online"],
             "antwort": "Wenn Sie einen Termin vereinbaren möchten, geben Sie bitte 'termin vereinbaren' ein oder rufen sie uns an unter 030-987654."
         },
@@ -252,5 +252,6 @@ def chat_handler():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
