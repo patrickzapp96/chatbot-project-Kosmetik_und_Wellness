@@ -14,6 +14,7 @@ CORS(app)
 user_states = {}
 
 # FAQ-Datenbank für ein Wellness- und Kosmetikstudio
+# FAQ-Datenbank für ein Wellness- und Kosmetikstudio
 faq_db = {
     "fragen": [
         {
@@ -34,7 +35,7 @@ faq_db = {
             "id": 3,
             "kategorie": "Leistungen",
             "titel": "Massagen",
-            "keywords": ["massage", "wellness", "entspannung", "rückenschmerzen"],
+            "keywords": ["massage", "wellness", "massagen", "entspannung", "rückenschmerzen"],
             "antwort": "Wir bieten verschiedene Massagen an, darunter klassische Ganzkörpermassagen, Aromaöl-Massagen und Hot-Stone-Massagen."
         },
         {
@@ -57,6 +58,41 @@ faq_db = {
             "titel": "Produkte",
             "keywords": ["produkte", "verkauf", "kaufen", "creme", "öl"],
             "antwort": "In unserem Studio führen wir hochwertige Pflegeprodukte verschiedener Marken, die Sie auch direkt bei uns erwerben können."
+        },
+        {
+            "id": 7,
+            "kategorie": "Zahlung",
+            "titel": "Zahlungsmethoden",
+            "keywords": ["bezahlen", "zahlung", "kreditkarte", "bar", "ec-karte"],
+            "antwort": "Sie können bei uns bar, mit EC-Karte oder den gängigen Kreditkarten (Visa, Mastercard) bezahlen."
+        },
+        {
+            "id": 8,
+            "kategorie": "Gutscheine",
+            "titel": "Gutscheine kaufen",
+            "keywords": ["gutschein", "geschenk", "kaufen", "geschenkgutschein"],
+            "antwort": "Sie können Gutscheine für unsere Behandlungen und Produkte direkt bei uns im Studio erwerben. Gerne stellen wir auch Gutscheine über einen bestimmten Wert aus."
+        },
+        {
+            "id": 9,
+            "kategorie": "Terminänderung",
+            "titel": "Termin stornieren",
+            "keywords": ["stornieren", "absagen", "termin", "ändern", "verschieben", "verlegen"],
+            "antwort": "Sollten Sie einen Termin nicht wahrnehmen können, bitten wir Sie, diesen mindestens 24 Stunden vorher abzusagen. Andernfalls müssen wir Ihnen eine Stornierungsgebühr berechnen."
+        },
+        {
+            "id": 10,
+            "kategorie": "Leistungen",
+            "titel": "Haarentfernung",
+            "keywords": ["haarentfernung", "entwachsen", "waxing", "sugaring", "laser"],
+            "antwort": "Wir bieten verschiedene Methoden zur Haarentfernung an, darunter Waxing und Sugaring. Für eine dauerhafte Haarentfernung beraten wir Sie gerne zu unseren Laserbehandlungen."
+        },
+        {
+            "id": 11,
+            "kategorie": "Leistungen",
+            "titel": "Spezialbehandlungen",
+            "keywords": ["microblading", "wimpernlifting", "microneedling", "anti-aging"],
+            "antwort": "Neben unseren klassischen Behandlungen führen wir auch spezialisierte Dienstleistungen wie Microblading, Wimpernlifting und Microneedling durch. Eine kostenlose Beratung ist vor jeder Spezialbehandlung möglich."
         }
     ],
     "fallback": "Das weiß ich leider nicht. Bitte rufen Sie uns direkt unter 030-123456 an, wir helfen Ihnen gerne persönlich weiter."
@@ -252,6 +288,7 @@ def chat_handler():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
 
