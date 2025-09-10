@@ -1,81 +1,114 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('chat-toggle');
-    const chatWidget = document.getElementById('chat-widget');
-    const closeBtn = document.getElementById('chat-close');
-    const userMessageInput = document.getElementById('userMessage');
+const toggleBtn = document.getElementById("chat-toggle");
+const chatWidget = document.getElementById("chat-widget");
+const closeBtn = document.getElementById("chat-close");
+const typingIndicator = document.getElementById("typing-indicator");
+const chatInput = document.getElementById("chat-input").querySelector("input");
 
-    // Event listener for opening the chat widget
-    toggleBtn.addEventListener('click', () => {
-        chatWidget.classList.remove('hidden');
-        toggleBtn.classList.add('hidden');
+toggleBtn.addEventListener("click", () => {
+    // Wenn der Chat geöffnet wird...
+    if (chatWidget.style.display === "none") {
+        chatWidget.style.display = "flex";
+        toggleBtn.style.display = "none";
         
-        // Show initial messages with a slight delay for a more natural feel
+        // Füge die beiden Startnachrichten hinzu
+        // Optional: Kurze Verzögerung für einen realistischeren Effekt
         setTimeout(() => {
-            addMessage("Es werden keine personenbezogenen Daten gespeichert.", 'bot', 'bot-intro-message');
+            // Hinzufügen einer neuen Klasse 'bot-red-message' für die rote Farbe
+            addMessage("Es werden keine personenbezogenen Daten gespeichert.", "bot", "bot-red-message");
             setTimeout(() => {
-                addMessage("Terminanfragen hier möglich.", 'bot', 'bot-intro-message');
-                setTimeout(() => {
-                    addMessage("Wie kann ich Ihnen behilflich sein?", 'bot');
-                }, 500);
-            }, 500);
-        }, 300);
-    });
-
-    // Event listener for closing the chat widget
-    closeBtn.addEventListener('click', () => {
-        chatWidget.classList.add('hidden');
-        toggleBtn.classList.remove('hidden');
-    });
-
-    // Event listener for sending a message on 'Enter' key press
-    userMessageInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    });
+                // Hinzufügen einer neuen Klasse 'bot-green-message' für die grüne Farbe
+                addMessage("Terminanfragen für Behandlungen und Kosmetik hier möglich.", "bot", "bot-green-message");
+                    setTimeout(() => {
+                        addMessage("Wie kann ich Ihnen behilflich sein?", "bot");
+                    }, 500); // 0.5 Sekunden Verzögerung 
+            }, 500); // 0.5 Sekunden Verzögerung
+        }, 300); // 0.3 Sekunden Verzögerung nach dem Öffnen
+    }
+});
+closeBtn.addEventListener("click", () => {
+    chatWidget.style.display = "none";
+    toggleBtn.style.display = "flex";
 });
 
-// Function to add a message to the chat
-function addMessage(text, sender, extraClass = '') {
-    const chatMessages = document.getElementById('chat-messages');
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message-bubble', `${sender}-message`);
-    if (extraClass) {
-        messageDiv.classList.add(extraClass);
+chatInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        sendMessage();
     }
-    messageDiv.innerHTML = text.replace(/\n/g, '<br>'); // Handle multiline messages
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
+});
+
+function sendMessage() {
+    const userMessage = chatInput.value.trim();
+    if (userMessage === "") {
+        return;
+    }
+
+    addMessage(userMessage, "user");
+    chatInput.value = "";
+    showTypingIndicator();
+
+    try {
+        const response = fetch("http://127.0.0.1:5000/api/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: userMessage }),
+        });
+        
+        response.then(res => res.json()).then(data => {
+            hideTypingIndicator();
+            setTimeout(() => {
+                addMessage(data.reply, "bot");
+            }, 500);
+        });
+    } catch (error) {
+        console.error("Fehler beim Senden der Nachricht:", error);
+        addMessage("Entschuldigung, ich kann gerade nicht antworten.", "bot");
+        hideTypingIndicator();
+    }
 }
 
-// Function to send a message to the backend
-async function sendMessage() {
-    const userMessageInput = document.getElementById('userMessage');
-    const typingIndicator = document.getElementById('typing-indicator');
-    const userMessage = userMessageInput.value.trim();
-    if (!userMessage) return;
+function showTypingIndicator() {
+    typingIndicator.style.display = "block";
+    const messagesContainer = document.getElementById("chat-messages");
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
 
-    addMessage(userMessage, 'user');
-    userMessageInput.value = '';
-    
-    typingIndicator.classList.remove('hidden');
-    
-    try {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: userMessage })
-        });
+function hideTypingIndicator() {
+    typingIndicator.style.display = "none";
+}
 
-        const data = await response.json();
-        
-        setTimeout(() => {
-            addMessage(data.reply, 'bot');
-            typingIndicator.classList.add('hidden');
-        }, 500);
-    } catch (error) {
-        console.error('Fehler beim Senden der Nachricht:', error);
-        addMessage('Entschuldigung, ich kann gerade nicht antworten.', 'bot');
-        typingIndicator.classList.add('hidden');
+// Die addMessage-Funktion wurde erweitert, um eine optionale Klasse zu akzeptieren
+function addMessage(text, sender, extraClass = null) {
+    const chat = document.getElementById("chat-messages");
+    const msgDiv = document.createElement("div");
+    msgDiv.classList.add("message", sender);
+    
+    // Füge die zusätzliche Klasse hinzu, falls vorhanden
+    if (extraClass) {
+        msgDiv.classList.add(extraClass);
     }
+
+    const avatar = document.createElement("div");
+    avatar.classList.add("avatar");
+
+    // Emojis als Avatar setzen
+    if (sender === "user") {
+        avatar.innerText = "🧍"; // Emoji für den Benutzer
+    } else {
+        avatar.innerText = "🤖"; // Emoji für den Bot
+    }
+
+    const bubble = document.createElement("div");
+    bubble.classList.add("bubble"); // Wichtig: füge diese Klasse hinzu
+    bubble.innerText = text;
+    if (sender === "user") {
+        msgDiv.appendChild(bubble);
+        msgDiv.appendChild(avatar);
+    } else {
+        msgDiv.appendChild(avatar);
+        msgDiv.appendChild(bubble);
+    }
+    chat.appendChild(msgDiv);
+    chat.scrollTop = chat.scrollHeight; // Scrolle nach unten
 }
